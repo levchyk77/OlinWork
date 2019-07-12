@@ -2,6 +2,7 @@ import { Component, OnInit } from '@angular/core';
 
 import { FormBuilder, FormGroup, Validators } from '@angular/forms';
 import { Router, ActivatedRoute } from '@angular/router';
+import { AuthenticationService } from '../_services';
 
 @Component({
   selector: 'app-login',
@@ -9,46 +10,56 @@ import { Router, ActivatedRoute } from '@angular/router';
   styleUrls: ['./login.component.css']
 })
 export class LoginComponent implements OnInit {
-
   loginForm: FormGroup;
-  submited = false;
-  loading = false;
   returnUrl: string;
-  error = '';
+  submitted = false;
+  loading = false;
+  error: string;
 
   constructor(
     private formBuilder: FormBuilder,
-    private route: ActivatedRoute,
     private router: Router,
-    // додати injection сервіса автенфікації
-
-  ) { }
+    private activatedRoute: ActivatedRoute,
+    private authenticationService: AuthenticationService
+  ) {
+    if (this.authenticationService.currentUserValue) {
+       this.router.navigate(['/']);
+    }
+  }
 
   ngOnInit() {
     this.loginForm = this.formBuilder.group({
-      userName: ['', Validators.required],
-      password: ['', [Validators.required, Validators.minLength(6)]]
+      username: ['', Validators.required],
+      password: ['', Validators.required]
     });
+    // will be added by AuthGuard
+    this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/home';
 
-    // додати перевірку на авторизованого користувача (через сервіс автренфікації)
-
-    // 'returnUrl' буде переданий через AuthGuard
-    this.returnUrl = this.route.snapshot.queryParams['returnUrl'] || '/';
   }
 
-  get form() {
-    return this.loginForm.controls;
-  }
+  get logForm() { return this.loginForm.controls; }
+
 
   onSubmit() {
-    this.submited = true;
+    this.submitted = true;
 
-    if (this.loginForm.invalid){
+    if (this.loginForm.invalid) {
       return;
     }
-    this.loading = true;
 
+    this.loading = true;
     // звернення до authentication service -> Observable.subscribe
+    this.authenticationService.login(this.logForm.username.value, this.logForm.password.value)
+      .subscribe(
+        data => {
+          this.router.navigate([this.returnUrl]);
+          this.loading = false;
+        },
+        error => {
+          this.error = error;
+          this.loading = false;
+        }
+      );
   }
 
 

@@ -2,7 +2,6 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
-import { nextContext } from '@angular/core/src/render3';
 
 let users = [{ id: 1, firstName: 'Daniel', lastName: 'Shumov', userName: 'test', password: 'test' }]
 @Injectable()
@@ -11,7 +10,7 @@ export class FakeBackendInterceptor implements HttpInterceptor {
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         // destructing operator (https://javascript.info/destructuring-assignment)
         // order doesn`t matter
-        const { url, body, headers, method } = request;
+        const { url, method, headers, body } = request;
 
 
         // wrap in delayed observable to simulate server api called
@@ -24,9 +23,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function handlleRoute() {
             // using switch(true) insted of if-else loop
             switch (true) {
-                case url.endsWith('users/authenticate') && method === 'Post':
+                case url.endsWith('users/authenticate') && method === 'POST':
                     return authenticate(); // authenticate()
-                default:
+/*                 case url.endsWith('/users/register')
+ */                default:
                     // passing control to the next interceptor in the chain, if there is one.
                     return next.handle(request);
             }
