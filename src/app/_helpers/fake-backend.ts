@@ -23,22 +23,25 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         function handlleRoute() {
             // using switch(true) insted of if-else loop
             switch (true) {
-                case url.endsWith('users/authenticate') && method === 'POST':
+                case url.endsWith('/users/authenticate') && method === 'POST':
                     return authenticate(); // authenticate()
-/*                 case url.endsWith('/users/register')
- */                default:
+                case url.endsWith('/users/register') && method === 'POST':
+                    return register();
+                default:
                     // passing control to the next interceptor in the chain, if there is one.
                     return next.handle(request);
             }
         }
 
+        /*  -------- Authentication -------- */
         function authenticate() {
+
             // destructing operator (https://javascript.info/destructuring-assignment)
             const { username, password } = body;
             const user = users.find(x => x.userName === username && x.password === password);
 
             if (!user) {
-                return error('Username of password is invalid');
+                return error('Username or password is invalid');
             }
             return ok({
                 id: user.id,
@@ -47,7 +50,26 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 lastName: user.lastName,
                 token: 'fake-jwt-token'
             });
+
         }
+        /* -------- Registraition -------- */
+        function register() {
+            const user = body;
+            // checking if userName is already taken
+            if (users.find(x => x.userName === user.userName)) {
+                return error('Username "' + user.userName + '" is already taken.');
+            }
+
+            // using spread operator to get individual elements, so that we can use Math.max() method
+            user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+            users.push(user);
+            // delete after backend is provided
+            // made for cases when browser is refreshed or closed
+            localStorage.setItem('users', JSON.stringify(users));
+
+            return ok();
+        }
+        /* -------- helper functions -------- */
         function ok(body?) {
             return of(new HttpResponse({ status: 200, body }));
         }

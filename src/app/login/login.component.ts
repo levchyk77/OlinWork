@@ -15,6 +15,7 @@ export class LoginComponent implements OnInit {
   submitted = false;
   loading = false;
   error: string;
+  success: string;
 
   constructor(
     private formBuilder: FormBuilder,
@@ -23,7 +24,7 @@ export class LoginComponent implements OnInit {
     private authenticationService: AuthenticationService
   ) {
     if (this.authenticationService.currentUserValue) {
-       this.router.navigate(['/']);
+      this.router.navigate(['/']);
     }
   }
 
@@ -35,6 +36,10 @@ export class LoginComponent implements OnInit {
     // will be added by AuthGuard
     this.returnUrl = this.activatedRoute.snapshot.queryParams['returnUrl'] || '/home';
 
+    // checks for query parameter that is added by register component in case of successful registration
+    if (this.activatedRoute.snapshot.queryParams['registered']) {
+      this.success = 'Registration successful';
+    }
   }
 
   get logForm() { return this.loginForm.controls; }
@@ -47,6 +52,9 @@ export class LoginComponent implements OnInit {
       return;
     }
 
+    // reset alerts
+    this.success = null;
+    this.error = null;
     this.loading = true;
     // звернення до authentication service -> Observable.subscribe
     this.authenticationService.login(this.logForm.username.value, this.logForm.password.value)
