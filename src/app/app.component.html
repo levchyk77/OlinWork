@@ -1,14 +1,21 @@
 <nav *ngIf="currentUser" class="navbar navbar-expand navbar-dark bg-dark">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/home">Home</a>
-    <a class="nav-item nav-link" routerLink="/">My account</a>
-    <a class="nav-item nav-link" (click)="logout()">Logot</a>
   </div>
+  <div class="navbar-nav ml-auto">
+    <a class="nav-item nav-link" routerLink="/admin" *ngIf="isAdmin">Admin</a>
+    <a class="nav-item nav-link" routerLink="/">My account</a>
+    <a class="nav-item nav-link" (click)="logout()">Logout</a>
+  </div>
+
 </nav>
 <nav *ngIf="!currentUser" class="navbar navbar-expand navbar-dark bg-dark">
   <div class="navbar-nav">
     <a class="nav-item nav-link" routerLink="/home">Home</a>
+  </div>
+  <div class="navbar-nav ml-auto">
     <a class="nav-item nav-link" routerLink="/login">Login</a>
+
   </div>
 </nav>
 

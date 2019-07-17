@@ -11,6 +11,7 @@ import { FakeBackendProvider, JwtInterceptor, ErrorInterceptor } from './_helper
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { AdminComponent } from './admin/admin.component';
 
 @NgModule({
   declarations: [
@@ -18,6 +19,7 @@ import { RegisterComponent } from './register/register.component';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
+    AdminComponent,
   ],
   imports: [
     BrowserModule,

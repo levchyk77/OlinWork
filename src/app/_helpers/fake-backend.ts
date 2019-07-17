@@ -2,8 +2,14 @@ import { Injectable } from '@angular/core';
 import { HttpInterceptor, HttpRequest, HttpHandler, HttpEvent, HttpResponse, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { Observable, of, throwError } from 'rxjs';
 import { mergeMap, materialize, delay, dematerialize } from 'rxjs/operators';
+import { Role, User } from '../_models';
 
-let users = [{ id: 1, firstName: 'Daniel', lastName: 'Shumov', userName: 'test', password: 'test' }]
+let users: User[] = [
+    { id: 1, firstName: 'Daniel', lastName: 'Shumov', userName: 'admin', password: 'admin', role: Role.Admin },
+    { id: 2, firstName: 'moderator', lastName: 'moderator', userName: 'moderator', password: 'moderator', role: Role.Moderator },
+    { id: 3, firstName: 'user', lastName: 'user', userName: 'user', password: 'user', role: Role.User }
+];
+
 @Injectable()
 export class FakeBackendInterceptor implements HttpInterceptor {
 
@@ -27,6 +33,10 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return authenticate(); // authenticate()
                 case url.endsWith('/users/register') && method === 'POST':
                     return register();
+                case url.endsWith('/users') && method === 'GET':
+                    return getUsers();
+                case url.match(/\/users\/\d+$/) && method === 'DELETE':
+                    return deleteUser();
                 default:
                     // passing control to the next interceptor in the chain, if there is one.
                     return next.handle(request);
@@ -48,7 +58,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                 userName: user.userName,
                 firstName: user.firstName,
                 lastName: user.lastName,
-                token: 'fake-jwt-token'
+                role: user.role,
+                token: `fake-jwt-token.${user.role}`
             });
 
         }
@@ -62,11 +73,32 @@ export class FakeBackendInterceptor implements HttpInterceptor {
 
             // using spread operator to get individual elements, so that we can use Math.max() method
             user.id = users.length ? Math.max(...users.map(x => x.id)) + 1 : 1;
+
+            user.role = Role.User;
             users.push(user);
             // delete after backend is provided
             // made for cases when browser is refreshed or closed
             localStorage.setItem('users', JSON.stringify(users));
 
+            return ok();
+        }
+        /* -------- Getting the list of usets -------- */
+        function getUsers() {
+            if (!isLoggedIn()) {
+                // ! using a heper function to make code reusable and simplier to read
+                return unauthorized();
+            }
+            // returns the list of users except for admins
+            return ok(users.filter(x => x.role !== Role.Admin));
+        }
+
+        function deleteUser() {
+            if (!isLoggedIn) {
+                return unauthorized();
+            }
+            // deleting user with the id from url
+            users = users.filter(x => x.id !== idFormUrl());
+            localStorage.setItem('users', JSON.stringify(users));
             return ok();
         }
         /* -------- helper functions -------- */
@@ -75,6 +107,16 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
         function error(message) {
             return throwError({ error: { message } });
+        }
+        function isLoggedIn() {
+            return headers.get('Authorization').startsWith('Bearer fake-jwt-token');
+        }
+        function unauthorized() {
+            return throwError({ status: 401, error: { message: 'Unauthorised' } });
+        }
+        function idFormUrl() {
+            const urlParts = url.split('/');
+            return parseInt(urlParts[urlParts.length - 1]);
         }
     }
 }

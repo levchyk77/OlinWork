@@ -3,11 +3,24 @@ import { Routes, RouterModule } from '@angular/router';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
+import { AuthGuard } from './_helpers';
+import { AdminComponent } from './admin/admin.component';
+import { Role } from './_models';
 
 const routes: Routes = [
-  { path: 'login', component: LoginComponent},
-  { path: 'home', component: HomeComponent},
-  { path: 'register', component: RegisterComponent},
+  { path: 'login', component: LoginComponent },
+  {
+    path: 'home',
+    component: HomeComponent,
+    canActivate: [AuthGuard]
+  },
+  { path: 'register', component: RegisterComponent },
+  {
+    path: 'admin',
+    component: AdminComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.Admin]}
+  },
   {
     path: '',
     redirectTo: '/home',
