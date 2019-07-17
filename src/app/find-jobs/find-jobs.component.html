@@ -1,0 +1,61 @@
+<section class="find-jobs">
+    <div class="cotainer">
+      <!-- Select a field form -->
+      <form>
+        <div class="d-flex justify-content-center">
+          <div>
+            <select name="fields" class="dropdown">
+              <option value="Architect" selected>Select a field</option>
+              <option value="Architect">Architect</option>
+              <option value="Architect">Architect</option>
+              <option value="Architect">Architect</option>
+            </select>
+            <p class="remove-filters-btn"><a href="">Remove filters</a></p>
+          </div>
+          <button class="filter-jobs">Filter Jobs</button>
+        </div>
+      </form>
+  
+      <hr>
+  
+      <!-- Job offers -->
+  
+      <div class="container cards-container">
+
+        <div class="card w-100" *ngFor="let jobOffer of jobOffers">
+            <div class="card-body">  
+              <h3 class="card-title">{{jobOffer.jobTitle}}</h3>
+              <p class="card-text">
+                {{jobOffer.description}}  
+              </p>
+    
+              <div class="d-flex justify-content-between">
+                <p class="salary">$ {{jobOffer.salary}} / month</p>
+                <div class="button-holder">
+                  <button>Details</button>
+                </div>
+              </div>
+            </div>
+          </div>
+  
+      </div>
+  
+      <!-- Pagination (Angular-driven ezample in bookmarks) -->
+  
+      <div class="mt-5">
+        <div class="col-md-12 d-flex justify-content-center">
+          <div class="pagination">
+            <ul>
+              <li><a href=""><img src="../../assets/img/prev-angle-icon.svg" alt="Previous"></a></li>
+              <li><a href="">1</a></li>
+              <li><a href="">2</a></li>
+              <li><a href="">3</a></li>
+              <li><a href=""><img src="../../assets/img/next-angle-icon.svg" alt="Next"></a></li>
+            </ul>
+          </div>
+        </div>
+      </div>
+
+    </div>
+  </section>
+  

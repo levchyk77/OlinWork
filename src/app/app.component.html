@@ -1,23 +1,92 @@
-<nav *ngIf="currentUser" class="navbar navbar-expand navbar-dark bg-dark">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link" routerLink="/home">Home</a>
-    <a class="nav-item nav-link" routerLink="/">My account</a>
-    <a class="nav-item nav-link" (click)="logout()">Logot</a>
-  </div>
-</nav>
-<nav *ngIf="!currentUser" class="navbar navbar-expand navbar-dark bg-dark">
-  <div class="navbar-nav">
-    <a class="nav-item nav-link" routerLink="/home">Home</a>
-    <a class="nav-item nav-link" routerLink="/login">Login</a>
-  </div>
-</nav>
+<!-- navigation for authenticated users -->
+<nav *ngIf="currentUser" class="navbar navbar-expand-md navbar-dark">
 
-<div class="jumbotron">
-  <div class="container">
-    <div class="row">
-      <div class="col-sm-6 offset-sm-3">
-        <router-outlet></router-outlet>
-      </div>
+  <div class="container d-flex">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="../assets/img/OLINWORK-LOGO.png" alt="OlInWork">
+    </a>
+
+    <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
+      data-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon custom-toggler "></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/home">Home </a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/home">Find Jobs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/home">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="collapse navbar-collapse justify-content-end navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/admin" *ngIf="isAdmin">Admin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/">My account</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" (click)="logout()">Logout</a>
+        </li>
+      </ul>
     </div>
   </div>
+
+</nav>
+
+<!-- navigation for unauthenticated users -->
+<nav *ngIf="!currentUser" class="navbar navbar-expand-lg navbar-dark">
+
+  <div class="container d-flex">
+    <a class="navbar-brand" routerLink="/home">
+      <img src="../assets/img/OLINWORK-LOGO.png" alt="OlInWork" height="45px">
+    </a>
+
+    <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
+      data-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
+      aria-label="Toggle navigation">
+      <span class="navbar-toggler-icon custom-toggler "></span>
+    </button>
+
+    <div class="collapse navbar-collapse navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/home">Home</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/home">Find Jobs</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/home">Contact Us</a>
+        </li>
+      </ul>
+    </div>
+
+    <div class="collapse navbar-collapse justify-content-end navbarSupportedContent">
+      <ul class="navbar-nav">
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/login">Login</a>
+        </li>
+      </ul>
+
+    </div>
+  </div>
+
+</nav>
+
+
+<div>
+  <router-outlet></router-outlet>
 </div>
+
+
+<app-footer></app-footer>

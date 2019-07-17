@@ -1,0 +1,46 @@
+.subscribe {
+    background-color: rgb(37, 186, 238);
+    color: white;
+    padding: 2em;
+    padding-bottom: 2.5em;
+}
+.subscribe .form-group {
+    margin-top: 1em;
+}
+.subscribe label {
+    font-family: MaisonNeue-Book;
+    font-size: 36px;
+}
+.subscribe #email-subs {
+    appearance: none;
+    border-radius: 5px;
+    border: none;
+    padding: .3em 5em .3em .5em;
+    font-family: MaisonNeue-Book;
+    font-size: 24px;
+    color: rgb(89, 89, 89);
+    width: 100%;
+    height: 40px;
+}
+.subscribe button#email-subs-submit {
+    appearance: none;
+    border-radius: 5px;
+    border: none;
+    background-color: rgb(57, 62, 70);
+    font-family: MaisonNeue-Book;
+    font-size: 20px;
+    color: white;
+    width: 100%;
+    height: 40px;
+    margin-left: -10%;
+}
+
+.copyright {
+    background-color:  rgb(57, 62, 70);
+    color: white;
+    padding: 2em;
+    padding-bottom: 2.5em;
+    font-family: MaisonNeue-Book;
+    font-size: 24px;
+}
+

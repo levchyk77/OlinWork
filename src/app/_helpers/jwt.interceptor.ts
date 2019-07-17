@@ -9,7 +9,7 @@ all HTTP requests that are sent */
 export class JwtInterceptor implements HttpInterceptor {
     constructor(
         private authenticationService: AuthenticationService
-    ) {}
+    ) { }
     intercept(request: HttpRequest<any>, next: HttpHandler): Observable<HttpEvent<any>> {
         const currentUser = this.authenticationService.currentUserValue;
         if (currentUser && currentUser.token) {
@@ -20,7 +20,7 @@ export class JwtInterceptor implements HttpInterceptor {
                 }
             });
         }
-        
+
         // passes the request with headers been set to the next interceptors in the chain, if there are
         return next.handle(request);
     }

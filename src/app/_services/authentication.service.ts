@@ -3,6 +3,7 @@ import { Injectable } from '@angular/core';
 import { HttpClient } from '@angular/common/http';
 import { map } from 'rxjs/operators';
 import { BehaviorSubject, Observable } from 'rxjs';
+import { User } from '../_models';
 
 @Injectable({
   providedIn: 'root'
@@ -17,7 +18,7 @@ export class AuthenticationService {
   public currentUser: Observable<any>;
 
   constructor(private http: HttpClient) {
-    this.currentUserSubject = new BehaviorSubject<any>(localStorage.getItem('currentUser'));
+    this.currentUserSubject = new BehaviorSubject<any>(JSON.parse(localStorage.getItem('currentUser')));
     this.currentUser = this.currentUserSubject.asObservable();
   }
 
@@ -28,7 +29,7 @@ export class AuthenticationService {
 
   // login
   login(username: string, password: string) {
-    return this.http.post<any>('/users/authenticate', { username, password })
+    return this.http.post<User>('/users/authenticate', { username, password })
       .pipe(
         map(user => {
           // login succesful if the response has jwt token
@@ -36,8 +37,9 @@ export class AuthenticationService {
             // store user details and jwt token in the local storage
             localStorage.setItem('currentUser', JSON.stringify(user));
             this.currentUserSubject.next(user);
-            return user;
           }
+
+          return user;
         })
       );
   }
