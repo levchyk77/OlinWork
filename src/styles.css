@@ -1,1 +1,16 @@
-/* You can add global styles to this file, and also import other style files */
+* {
+    box-sizing: border-box;
+    font-family: MaisonNeue-Medium;
+}
+@font-face {
+    font-family: MaisonNeue-Book;
+    src: url('./assets/fonts/MaisonNeue-Book.ttf');
+}
+@font-face {
+    font-family: MaisonNeue-Medium;
+    src: url('./assets/fonts/MaisonNeue-Medium.ttf');
+}
+@font-face {
+    font-family: MaisonNeue-Bold;
+    src: url('./assets/fonts/MaisonNeue-Bold.ttf');
+}

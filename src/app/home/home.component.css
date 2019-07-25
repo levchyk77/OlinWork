@@ -1,0 +1,64 @@
+#bla {
+  position: relative;
+}
+
+.cover-photo {
+  width: 100%;
+}
+
+#bla .home-banner {
+  position: absolute;
+  text-align: center;
+  margin: 0 auto;
+  left: 0;
+  right: 0;
+  bottom: 4rem
+}
+
+.HomeHeader,
+.HomeSubHeader {
+  color: white;
+  font-family: 'MaisonNeue-Medium';
+
+}
+
+.HomeHeader {
+  font-size: 48px;
+  margin-bottom: 0, 5em;
+
+}
+
+.HomeSubHeader {
+  font-size: 24px;
+}
+
+button.home-banner-button {
+  color: white;
+  font-family: 'MaisonNeue-Bold';
+  font-size: 14px;
+  background-color: rgb(38, 186, 238);
+  height: 40px;
+  width: 190px;
+  margin: 10px;
+  border: none;
+  margin-top: 1em;
+}
+
+
+
+
+
+@media screen and (max-width: 992px) {
+  #bla .home-banner {
+    bottom: 6em;
+  }
+
+  .HomeHeader {
+    font-size: 40px;
+  }
+
+  .HomeSubHeader {
+    font-size: 20px;
+  }
+
+}

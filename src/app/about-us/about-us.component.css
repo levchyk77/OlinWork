@@ -1,0 +1,89 @@
+/* About Us */
+section.about-us {
+  width: 100%;
+  background-color: rgb(248, 249, 250);
+  margin-top: 40px;
+}
+
+section.about-us h2 {
+  margin: 60px;
+  font-family: MaisonNeue-Book;
+  font-size: 44px;
+  margin-top: 2em;
+}
+
+.cards-container {
+    padding-bottom: 4em;
+}
+
+.card {
+   margin-bottom: 2em;
+   padding: 1em;
+   padding-bottom: 0;
+}
+
+.card .card-body {
+    padding-bottom: .7em;
+}
+
+.card .card-title-holder {
+  align-items: center;
+}
+
+.card h3 {
+  font-family: MaisonNeue-Book;
+  font-size: 32px;
+}
+
+.card .about-us-icon {
+  float: left;
+  margin-right: 1.25em;
+  margin-top: -1em;
+}
+
+.card p.card-text {
+  float: left;
+  margin-top: 20px;
+  font-family: MaisonNeue-Book;
+  font-size: 20px;
+  color: rgb(137, 137, 137);
+}
+
+
+/* Show more/less using the "checkbox hack" */
+.show-more-state {
+    display: none;
+}
+
+.show-more-target {
+    display: none;
+    transition: .5s ease;
+}
+
+.show-more-triger {
+    cursor: pointer;
+    text-align: center;
+    color: rgb(38, 186, 238);
+    margin-top: 1em;
+}
+
+.show-more-triger img.three-dots {
+    margin-bottom: 1em;
+}
+
+
+.show-more-state:checked ~ .show-more-target {
+    display: block;
+}
+
+.show-more-state ~ .show-more-triger:after {
+    content: 'Show more';
+}
+
+.show-more-state:checked ~ .show-more-triger:after {
+    content: 'Show less';
+}
+
+.show-more-state:checked ~ .show-more-triger .three-dots {
+    display: none;
+}

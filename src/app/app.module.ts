@@ -5,13 +5,17 @@ import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { HttpClientModule, HTTP_INTERCEPTORS } from '@angular/common/http';
 import { ReactiveFormsModule } from '@angular/forms';
+import { FormsModule } from '@angular/forms';
 
 // delete after backend is provided
 import { FakeBackendProvider, JwtInterceptor, ErrorInterceptor } from './_helpers';
 import { LoginComponent } from './login/login.component';
 import { HomeComponent } from './home/home.component';
 import { RegisterComponent } from './register/register.component';
-import { AdminComponent } from './admin/admin.component';
+import { AdminsAndModeratorsModule } from './admins-and-moderators/admins-and-moderators.module';
+import { FindJobsComponent } from './find-jobs/find-jobs.component';
+import { AboutUsComponent } from './about-us/about-us.component';
+import { FooterComponent } from './footer/footer.component';
 
 @NgModule({
   declarations: [
@@ -19,13 +23,17 @@ import { AdminComponent } from './admin/admin.component';
     LoginComponent,
     HomeComponent,
     RegisterComponent,
-    AdminComponent,
+    FindJobsComponent,
+    AboutUsComponent,
+    FooterComponent,
   ],
   imports: [
     BrowserModule,
     HttpClientModule,
     ReactiveFormsModule,
-    AppRoutingModule
+    AppRoutingModule,
+    AdminsAndModeratorsModule,
+    FormsModule
   ],
   providers: [
     { provide: HTTP_INTERCEPTORS, useClass: JwtInterceptor, multi: true},

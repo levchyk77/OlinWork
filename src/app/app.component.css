@@ -1,0 +1,37 @@
+nav {
+  background-color: rgb(166, 166, 166);
+  height: 52px;
+}
+.navbar-brand img{
+    height: 40px;
+}
+.navbarSupportedContent a.nav-item.nav-link{
+  color: white;
+}
+
+.custom-toggler .navbar-toggler-icon {
+  background-image: url('../assets/img/custom-navbar-toggler-icon.svg');
+}
+
+.custom-toggler.navbar-toggler {
+  border: none;
+}
+
+ul.navbar-nav > li.nav-item {
+  margin: auto 10px;
+}
+
+.navbar-collapse.collapse.show {
+  z-index: 999;
+  background-color:  rgb(166, 166, 166);
+  display: block;
+  position: initial;
+  border: white 1px solid;
+  padding: 5px 10px;
+  border-radius: 4px;
+}
+
+.navbar-collapse.collapse.show .nav-link{
+    color: white;
+}
+

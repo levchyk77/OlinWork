@@ -22,8 +22,6 @@ export class AppComponent implements OnInit {
   }
 
   get isAdmin() {
-    console.log(this.currentUser);
-    console.log(this.currentUser.userName);
     return this.currentUser && this.currentUser.role === Role.Admin;
   }
   logout() {
