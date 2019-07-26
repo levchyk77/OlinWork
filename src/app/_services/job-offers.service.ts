@@ -11,7 +11,13 @@ export class JobOffersService {
     private http: HttpClient,
   ) { }
 
-  getJobOffers() {
+  getJobOffers(startIndex?: string, endIndex?: string) {
+    if (startIndex && endIndex) {
+      return this.http.get<JobOfer[]>('/job-offers', { params: {startIndex: `${startIndex}`, endIndex: `${endIndex}`} });
+    }
     return this.http.get<JobOfer[]>('/job-offers');
+  }
+  getJobOffersNumber() {
+    return this.http.get<number>('/job-offers/totalItems');
   }
 }
