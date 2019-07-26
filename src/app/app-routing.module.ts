@@ -6,8 +6,10 @@ import { RegisterComponent } from './register/register.component';
 import { AuthGuard } from './_helpers';
 import { AdminComponent } from './admins-and-moderators/admin/admin.component';
 import { Role } from './_models';
+import { FindJobsComponent } from './find-jobs/find-jobs.component';
 
 const routes: Routes = [
+  { path: 'find-jobs', component: FindJobsComponent},
   { path: 'login', component: LoginComponent },
   {
     path: 'home',

@@ -114,5 +114,6 @@ select.dropdown {
     color: rgb(38, 186, 238);
     text-decoration: none;
     margin: 10px;
+    cursor: pointer;
   }
   

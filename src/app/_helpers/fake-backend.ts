@@ -37,7 +37,7 @@ let jobOffers: JobOfer[] = [
     {
         id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
-            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, '+
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
             ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
         salary: 15000
@@ -45,7 +45,7 @@ let jobOffers: JobOfer[] = [
     {
         id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
-            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, '+
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
             ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
         salary: 15000
@@ -53,11 +53,44 @@ let jobOffers: JobOfer[] = [
     {
         id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
-            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, '+
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
             ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
         salary: 15000
-    }
+    },
+    {
+        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+            'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
+            'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
+            ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
+        salary: 15000
+    },
+    {
+        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+            'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
+            'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
+            ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
+        salary: 15000
+    },
+    {
+        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+            'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
+            'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
+            ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
+        salary: 15000
+    },
+    {
+        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+            'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
+            'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
+            ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
+        salary: 15000
+    },
+
 ];
 
 @Injectable()
@@ -89,6 +122,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return deleteUser();
                 case url.endsWith('/job-offers') && method === 'GET':
                     return getJobOffers();
+                case url.endsWith('/job-offers/totalItems') && method === 'GET':
+                    return getJobOffersNumber();
                 default:
                     // passing control to the next interceptor in the chain, if there is one.
                     return next.handle(request);
@@ -164,11 +199,23 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             localStorage.setItem('users', JSON.stringify(users));
             return ok();
         }
+
         /* Working with list of job offres  */
         function getJobOffers() {
-            localStorage.setItem('Job Offers', JSON.stringify(jobOffers));
+
+            const startIndex = params.get('startIndex');
+            const endIndex = params.get('endIndex');
+
+            if (startIndex && endIndex) {
+                return ok(jobOffers.slice(parseFloat(startIndex), parseFloat(endIndex) + 1));
+            }
+
             return ok(jobOffers);
         }
+        function getJobOffersNumber() {
+            return ok(jobOffers.length);
+        }
+
         /* -------- helper functions -------- */
         function ok(body?) {
             return of(new HttpResponse({ status: 200, body }));
