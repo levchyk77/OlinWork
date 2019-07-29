@@ -1,5 +1,5 @@
 <!-- navigation for authenticated users -->
-<nav *ngIf="currentUser" class="navbar navbar-expand-md navbar-dark">
+<nav class="navbar navbar-expand-md navbar-dark">
 
   <div class="container d-flex">
     <a class="navbar-brand" routerLink="/home">
@@ -26,10 +26,13 @@
       </ul>
     </div>
 
-    <div class="collapse navbar-collapse justify-content-end navbarSupportedContent">
+    <div *ngIf="currentUser" class="collapse navbar-collapse justify-content-end navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-item nav-link" routerLink="/admin" *ngIf="isAdmin">Admin</a>
+        </li>
+        <li class="nav-item">
+          <a class="nav-item nav-link" routerLink="/moderator" *ngIf="isModerator">Moderator</a>
         </li>
         <li class="nav-item">
           <a class="nav-item nav-link" routerLink="/">My account</a>
@@ -39,49 +42,18 @@
         </li>
       </ul>
     </div>
-  </div>
-
-</nav>
-
-<!-- navigation for unauthenticated users -->
-<nav *ngIf="!currentUser" class="navbar navbar-expand-lg navbar-dark">
-
-  <div class="container d-flex">
-    <a class="navbar-brand" routerLink="/home">
-      <img src="../assets/img/OLINWORK-LOGO.png" alt="OlInWork" height="45px">
-    </a>
-
-    <button class="custom-toggler navbar-toggler" type="button" data-toggle="collapse"
-      data-target=".navbarSupportedContent" aria-controls="navbarSupportedContent" aria-expanded="false"
-      aria-label="Toggle navigation">
-      <span class="navbar-toggler-icon custom-toggler "></span>
-    </button>
-
-    <div class="collapse navbar-collapse navbarSupportedContent">
-      <ul class="navbar-nav">
-        <li class="nav-item">
-          <a class="nav-item nav-link" routerLink="/home">Home</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-item nav-link" routerLink="/home">Find Jobs</a>
-        </li>
-        <li class="nav-item">
-          <a class="nav-item nav-link" routerLink="/home">Contact Us</a>
-        </li>
-      </ul>
-    </div>
-
-    <div class="collapse navbar-collapse justify-content-end navbarSupportedContent">
+    <div *ngIf="!currentUser" class="collapse navbar-collapse justify-content-end navbarSupportedContent">
       <ul class="navbar-nav">
         <li class="nav-item">
           <a class="nav-item nav-link" routerLink="/login">Login</a>
         </li>
       </ul>
-
     </div>
+
   </div>
 
 </nav>
+
 
 
 <div>

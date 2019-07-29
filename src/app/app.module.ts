@@ -26,6 +26,7 @@ import { FooterComponent } from './footer/footer.component';
     FindJobsComponent,
     AboutUsComponent,
     FooterComponent,
+    FindJobsComponent
   ],
   imports: [
     BrowserModule,

@@ -3,6 +3,7 @@ import { JobOffersService } from '../_services/job-offers.service';
 import { JobOfer } from '../_models/job-offfer';
 import { first } from 'rxjs/operators';
 import { PaginationService } from '../_services/pagination.service';
+import { FormGroup, FormControl } from '@angular/forms';
 
 @Component({
   selector: 'find-jobs',
@@ -10,24 +11,64 @@ import { PaginationService } from '../_services/pagination.service';
   styleUrls: ['./find-jobs.component.css']
 })
 export class FindJobsComponent implements OnInit {
-  @Input() pageSize = 2;
+  @Input() pageSize = 10;
   @Input() maxPages: number = 5;
   @Input() initialPage: number = 1;
 
+  filterJobsForm: FormGroup;
+  selectedJobTitle: any;
+  default: any;
+  filterChosen = false;
+  isFiltered = false;
 
   jobOffers: JobOfer[];
   jobOffersNumber: number;
+  jobTitles: any[];
 
   pager: any = {};
   pageOfItems: any = {};
 
   constructor(
     private jobOffersService: JobOffersService,
-    private paginationService: PaginationService
+    private paginationService: PaginationService,
   ) { }
 
   ngOnInit() {
+    this.createFilterForm();
     this.setPage(this.initialPage);
+    this.loadJobTitles();
+  }
+
+  private createFilterForm() {
+    this.filterJobsForm = new FormGroup({
+
+      field: new FormControl(),
+    });
+    this.removeFilters();
+  }
+
+  onSubmit() {
+    if (this.filterJobsForm.invalid) {
+      return;
+    }
+    this.selectedJobTitle = this.filterJobsForm.get('field').value;
+    this.setPage(1, this.selectedJobTitle);
+    this.filterChosen = true;
+    this.isFiltered = true;
+  }
+
+  selectingFilters() {
+    this.filterChosen = true;
+  }
+
+  removeFilters() {
+    this.default = document.getElementById('selectDefaultOption');
+    this.filterJobsForm.get('field').setValue(this.default.value);
+    if (this.isFiltered) {
+      this.setPage(1);
+      this.isFiltered = false;
+    }
+    this.filterChosen = false;
   }
 
   private loadJobOffers(startIndex?: string, endIndex?: string) {
@@ -38,18 +79,17 @@ export class FindJobsComponent implements OnInit {
       });
   }
 
-  private loadJobOffersNumber() {
-    this.jobOffersService.getJobOffersNumber()
-      .pipe(first())
-      .subscribe(jobOffersNumber => {
-        this.jobOffersNumber = jobOffersNumber;
+  private loadJobTitles() {
+    this.jobOffersService.getJobTitles()
+      .subscribe(x => {
+        this.jobTitles = x;
       });
   }
 
-  private setPage(page: number) {
+  private setPage(page: number, jobTitle?: string) {
     this.jobOffers = [];
 
-    this.jobOffersService.getJobOffersNumber()
+    this.jobOffersService.getJobOffersNumber(jobTitle)
       // .pipe(first())
       .subscribe(jobOffersNumber => {
         this.jobOffersNumber = jobOffersNumber;
@@ -59,6 +99,5 @@ export class FindJobsComponent implements OnInit {
         this.loadJobOffers(this.pager.startIndex.toString() , this.pager.endIndex.toString());
       });
   }
-
 
 }

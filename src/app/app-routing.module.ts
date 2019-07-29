@@ -7,6 +7,7 @@ import { AuthGuard } from './_helpers';
 import { AdminComponent } from './admins-and-moderators/admin/admin.component';
 import { Role } from './_models';
 import { FindJobsComponent } from './find-jobs/find-jobs.component';
+import { ModeratorComponent } from './admins-and-moderators/moderator/moderator.component';
 
 const routes: Routes = [
   { path: 'find-jobs', component: FindJobsComponent},
@@ -16,6 +17,12 @@ const routes: Routes = [
     component: HomeComponent
   },
   { path: 'register', component: RegisterComponent },
+  {
+    path: 'moderator',
+    component: ModeratorComponent,
+    canActivate: [AuthGuard],
+    data: {roles: [Role.Moderator]}
+  },
   {
     path: 'admin',
     component: AdminComponent,

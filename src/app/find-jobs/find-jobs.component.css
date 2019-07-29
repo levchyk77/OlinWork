@@ -35,6 +35,9 @@ select.dropdown {
     color: rgb(77, 165, 198);
     text-decoration: underline;
   }
+  a.hidden {
+    display: none;
+  }
   
   button.filter-jobs {
     background-color: rgb(221, 98, 90);
@@ -98,6 +101,9 @@ select.dropdown {
   }
   
   /* Pagination */
+  .pagination {
+    margin-bottom: 3em;
+  }
   
   .pagination ul li {
     display: inline-block;

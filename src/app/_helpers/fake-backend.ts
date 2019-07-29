@@ -24,6 +24,8 @@ API
 2. /users/register && method === 'POST' - to register a new user
 3. /users && method === 'GET' - to get the list of users
 4. /\/users\/\d+$/ && method === 'DELETE' - to delete user by id
+5. /job-offers' && method === 'GET' - to get the list of job offers - params(startIndex, endIndex)
+6. /job-offers/totalItems' && method === 'GET' - to get the number of job offers (for the pagination needs)
 */
 
 
@@ -43,7 +45,15 @@ let jobOffers: JobOfer[] = [
         salary: 15000
     },
     {
-        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+        id: 2, jobTitle: 'Front End Dev', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+            'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
+            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
+            'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
+            ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
+        salary: 17000
+    },
+    {
+        id: 3, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
             ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
@@ -51,7 +61,7 @@ let jobOffers: JobOfer[] = [
         salary: 15000
     },
     {
-        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+        id: 4, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
             ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
@@ -59,7 +69,7 @@ let jobOffers: JobOfer[] = [
         salary: 15000
     },
     {
-        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+        id: 5, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
             ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
@@ -67,7 +77,7 @@ let jobOffers: JobOfer[] = [
         salary: 15000
     },
     {
-        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+        id: 6, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
             ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
@@ -75,15 +85,7 @@ let jobOffers: JobOfer[] = [
         salary: 15000
     },
     {
-        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
-            'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
-            ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
-            'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
-            ' erat, sed diam voluptua. At vero eos et accusam et justo duo...',
-        salary: 15000
-    },
-    {
-        id: 1, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
+        id: 7, jobTitle: 'Architect', description: 'Lorem ipsum dolor sit amet, consetetur sadipscing elitr, sed diam nonumy eirmod' +
             'tempor invidunt ut labore et dolore magna aliquyam erat, sed diam voluptua. At vero eos et accusam et justo duo dolores et' +
             ' ea rebum. Stet clita kasd gubergren, no sea takimata sanctus est. Lorem ipsum dolor sit amet. Lorem ipsum dolor sit amet, ' +
             'consetetur sadipscing elitr, sed diam nonumy eirmod tempor invidunt ut labore et dolore magna aliquyam' +
@@ -124,6 +126,8 @@ export class FakeBackendInterceptor implements HttpInterceptor {
                     return getJobOffers();
                 case url.endsWith('/job-offers/totalItems') && method === 'GET':
                     return getJobOffersNumber();
+                case url.endsWith('/job-offers/jobTitles') && method === 'GET':
+                    return getJobTitles();
                 default:
                     // passing control to the next interceptor in the chain, if there is one.
                     return next.handle(request);
@@ -209,11 +213,28 @@ export class FakeBackendInterceptor implements HttpInterceptor {
             if (startIndex && endIndex) {
                 return ok(jobOffers.slice(parseFloat(startIndex), parseFloat(endIndex) + 1));
             }
-
             return ok(jobOffers);
         }
         function getJobOffersNumber() {
+
+            const jobTitle = params.get('jobTitle');
+
+            if (jobTitle) {
+                return ok(sortJobOffers(jobTitle).length);
+            }
+
             return ok(jobOffers.length);
+        }
+        function getJobTitles() {
+            let jobTitles: any = []; // array of objects of type [jobTitle]: [array of ids of job offers with that title]
+
+            jobOffers.map(x => {
+                if (jobTitles.indexOf(x.jobTitle) === -1) {
+                    jobTitles.push(x.jobTitle);
+                }
+            });
+
+            return ok(jobTitles);
         }
 
         /* -------- helper functions -------- */
@@ -238,6 +259,9 @@ export class FakeBackendInterceptor implements HttpInterceptor {
         }
         function getOnlyModerators() {
             return users.filter(x => x.role === Role.Moderator);
+        }
+        function sortJobOffers(jobTitle: string) {
+            return jobOffers.filter(offer => offer.jobTitle === jobTitle);
         }
     }
 }

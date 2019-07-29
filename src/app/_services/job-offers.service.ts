@@ -13,11 +13,17 @@ export class JobOffersService {
 
   getJobOffers(startIndex?: string, endIndex?: string) {
     if (startIndex && endIndex) {
-      return this.http.get<JobOfer[]>('/job-offers', { params: {startIndex: `${startIndex}`, endIndex: `${endIndex}`} });
+      return this.http.get<JobOfer[]>('/job-offers', { params: { startIndex: `${startIndex}`, endIndex: `${endIndex}` } });
     }
     return this.http.get<JobOfer[]>('/job-offers');
   }
-  getJobOffersNumber() {
+  getJobOffersNumber(jobTitle?: string) {
+    if (jobTitle) {
+      return this.http.get<number>('/job-offers/totalItems', {params: { jobTitle: `${jobTitle}`}});
+    }
     return this.http.get<number>('/job-offers/totalItems');
+  }
+  getJobTitles() {
+    return this.http.get<any[]>('/job-offers/jobTitles');
   }
 }

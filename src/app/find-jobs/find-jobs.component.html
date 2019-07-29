@@ -1,18 +1,24 @@
 <section class="find-jobs">
   <div class="cotainer">
     <!-- Select a field form -->
-    <form>
+    <form [formGroup]="filterJobsForm" (ngSubmit)="onSubmit()">
       <div class="d-flex justify-content-center">
         <div>
-          <select name="fields" class="dropdown">
-            <option value="Architect" selected>Select a field</option>
-            <option value="Architect">Architect</option>
-            <option value="Architect">Architect</option>
-            <option value="Architect">Architect</option>
+          <select formControlName="field" (change)="selectingFilters()" 
+            name="fields" class="dropdown">
+            <option value="select" id="selectDefaultOption" disabled>Select a field</option>
+            <option *ngFor="let jobTitle of jobTitles" 
+              [value]="jobTitle">
+              {{jobTitle}}
+            </option>
           </select>
-          <p class="remove-filters-btn"><a href="">Remove filters</a></p>
+          <p class="remove-filters-btn">
+            <a (click)="removeFilters()" [ngClass]="{ hidden: !filterChosen }">
+              Remove filters
+            </a>
+          </p>
         </div>
-        <button class="filter-jobs">Filter Jobs</button>
+        <button type="submit" class="filter-jobs">Filter Jobs</button>
       </div>
     </form>
 

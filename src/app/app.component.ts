@@ -24,6 +24,10 @@ export class AppComponent implements OnInit {
   get isAdmin() {
     return this.currentUser && this.currentUser.role === Role.Admin;
   }
+  get isModerator() {
+    return this.currentUser && this.currentUser.role === Role.Moderator;
+  }
+
   logout() {
     this.authenticationService.logout();
     this.router.navigate(['/login']);
